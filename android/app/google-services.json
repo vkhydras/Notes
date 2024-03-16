@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "335552836337",
+    "project_id": "mynotes-vickim2",
+    "storage_bucket": "mynotes-vickim2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335552836337:android:80f0afcb1c0b320cef2f50",
+        "android_client_info": {
+          "package_name": "com.example.notes_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8zo8OeHVSY-IrG_7dzjI4umQVo5ZRJDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

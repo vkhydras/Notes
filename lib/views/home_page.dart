@@ -10,12 +10,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:const  Text("Home page"),
-        backgroundColor: Colors.blue,
-        ),
-        body: FutureBuilder(
+    return FutureBuilder(
 
           future: Firebase.initializeApp(
                 options: DefaultFirebaseOptions.currentPlatform,
@@ -42,11 +37,9 @@ class HomePage extends StatelessWidget {
 
               return const LoginView();
                default:
-            return const Text('Loading...');
+            return const CircularProgressIndicator();
           } 
-          },
-          
-        ),
-    );
+          }, 
+        );
   }
 }

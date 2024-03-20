@@ -12,43 +12,41 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              if (user.emailVerified) {
+                return const NotesView();
+              } else {
+                return const VerifyEmailView();
+              }
+            } else {
+              return const LoginView();
+            }
+          // // final emailVerified = user?.emailVerified ?? false;
+          // if(user?.emailVerified ?? false){
+          //   print('You are verified');
+          // } else {
+          //   // print('Verfiy your email');
+          //   // Navigator.of(context).push(
+          //   //   MaterialPageRoute(
+          //   //     builder: (context)=> const VerifyEmailView()
+          //   //     )
+          //   //   );
+          //   return const VerifyEmailView();
+          // }
+          // print(user);
+          //  return  const Text('Done');
 
-          future: Firebase.initializeApp(
-                options: DefaultFirebaseOptions.currentPlatform,
-              ),
-
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState){
-              case ConnectionState.done:
-                final user =  FirebaseAuth.instance.currentUser;
-                if(user != null){
-                  if(user.emailVerified){
-              return const NotesView();
-                  }else {
-                    return const VerifyEmailView();
-                  }
-                } else {
-                  return const LoginView();
-                }
-                // // final emailVerified = user?.emailVerified ?? false;
-                // if(user?.emailVerified ?? false){
-                //   print('You are verified');
-                // } else {
-                //   // print('Verfiy your email');
-                //   // Navigator.of(context).push(
-                //   //   MaterialPageRoute(
-                //   //     builder: (context)=> const VerifyEmailView()
-                //   //     )
-                //   //   );
-                //   return const VerifyEmailView();
-                // }
-                // print(user);
-              //  return  const Text('Done');
-
-               default:
+          default:
             return const CircularProgressIndicator();
-          } 
-          }, 
-        );
+        }
+      },
+    );
   }
 }

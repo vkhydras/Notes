@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
+// import 'dart:developer' as devtools show log;
 
 import 'package:notes_app/constants/routes.dart';
+import 'package:notes_app/utilities/show_err_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -59,18 +60,34 @@ class _LoginViewState extends State<LoginView> {
               final password = _password.text;
 
               try {
-                final userCredential = FirebaseAuth.instance
-                    .signInWithEmailAndPassword(
-                        email: email, password: password);
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
 
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil(notesRoute, (route) => false);
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pushNamedAndRemoveUntil(notesRoute, (route) => false);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  devtools.log('User not found');
+                  await showErrDialog(
+                    context, 
+                    'User not found',
+                    );
                 } else if (e.code == 'wrong-password') {
-                  devtools.log('Wrong password');
+                  await showErrDialog(
+                    context, 
+                    'Wrong credentials',
+                    );
+                } else {
+                  await showErrDialog(
+                    context,
+                    'Error: ${e.code}');
                 }
+              } catch(e){
+                await showErrDialog(
+                  context,
+                  e.toString(),
+                  );
               }
             },
             child: const Text('Login'),
@@ -86,3 +103,5 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
+
+
